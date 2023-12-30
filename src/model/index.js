@@ -50,6 +50,7 @@ const DriverDocuments = require("./DriverDocuments");
 const Border = require("./Border");
 const users = require("./users");
 const UserCompanyAssignment = require("./UserCompanyAssignment");
+const transactions = require("./transactions");
 
 
 // import Otp from "./Otp";
@@ -70,6 +71,7 @@ db.driver_documents = DriverDocuments(sequelize, DataTypes);
 db.border_Routes = BorderRoutes(sequelize, DataTypes);
 db.border = Border(sequelize, DataTypes);
 db.users = users(sequelize , DataTypes)
+db.transactions = transactions(sequelize , DataTypes)
 db.user_company_assignments = UserCompanyAssignment(sequelize ,DataTypes)
 
 !// remove sync true

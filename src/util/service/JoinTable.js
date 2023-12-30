@@ -10,7 +10,7 @@ const JoinTable = async  (
 ) => {
   try {
     let include = [];
-
+    let models
     switch (relation) {
       case "One":
         m1.hasOne(m2);
@@ -30,21 +30,21 @@ const JoinTable = async  (
       case "hasMany":
         m1.hasMany(m2, {
           foreignKey: foreignKey,
-          // as : name
+          as : name
         });
-        // m2.belongsTo(m1 , {
-        //   foreignKey : foreignKey , 
+        m2.belongsTo(m1 , {
+          foreignKey : foreignKey , 
         //   // as : name
-        // });
-        include.push({
+        });
+        models = {
           model: m2,
-          // as: name,
+          as: name,
           attributes: {
             include: attributes.include,
             exclude: attributes.exclude,
           },
           where: filter,
-        });
+        };
         break;
 
       case "Many-to-Many":
@@ -66,7 +66,7 @@ const JoinTable = async  (
         console.error(`Unsupported relationship type: ${relation}`);
         break;
     }
-    return include;
+    return models;
   } catch (error) {
     console.error(`error in JoinTable function :: ${error}`);
   }

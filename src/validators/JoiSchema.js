@@ -57,4 +57,21 @@ const bookings = Joi.object({
   attitude: Joi.string().valid('Positive', 'Negative', 'Neutral').required(),
 }).unknown(true)
 
-  module.exports = {driverSchema , driverDocumentSchema , countriesJoiSchema , statesJoiSchema , cityJoiSchema , vehicleJoiSchema , bookings}
+const transactionSchema = Joi.object({
+  date: Joi.date().iso().required(),
+  route_name: Joi.string().required(),
+  origin: Joi.string().required(),
+  bookings: Joi.number().integer().required(),
+  destination: Joi.string().required(),
+  driver_name: Joi.string().required(),
+  payable_ammount: Joi.number().precision(2).required(),
+  ammount_to_driver: Joi.number().precision(2).required(),
+  mode: Joi.string().valid('cash', 'cheque', 'online').required(),
+  cheque_number: Joi.when('mode', {
+    is: 'cheque',
+    then: Joi.string().required(),
+    otherwise: Joi.string().allow(null),
+  }),
+}).unknown(true)
+
+  module.exports = {driverSchema , driverDocumentSchema , countriesJoiSchema , statesJoiSchema , cityJoiSchema , vehicleJoiSchema , bookings , transactionSchema}

@@ -12,6 +12,7 @@ const booking = require("./booking.routes")
 const borderroute = require("./routeBorder.router")
 const users = require("./user.route")
 const user_company_assignments = require("./UserCompanyAssignment.route")
+const transactionsRoutes = require("./transactions.routes")
 // const JWT = require("../helpers/jwt")
 // const verifyUserCookieAccessToken = JWT.verifyUserCookieAccessToken;
 const router = express.Router();
@@ -27,6 +28,7 @@ router.use("/location",  country);
 router.use("/vehicles",  vehicleRoute);
 router.use("/routes",  borderroute); // border routess
 router.use("/bookings", booking ); // border routess
+router.use("/transactions", transactionsRoutes  ); // border routess
 router.use("/assignCompany", user_company_assignments ); // border routess
 
 module.exports = router;
