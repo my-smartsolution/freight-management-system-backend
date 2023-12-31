@@ -41,6 +41,21 @@ module.exports = function (sequelize, DataTypes) {
           country: {
             type: DataTypes.STRING(255),
           },
+          address2: {
+            type: DataTypes.STRING(255),
+          },
+          citys2: {
+            type: DataTypes.STRING(255),
+          },
+          state2: {
+            type: DataTypes.STRING(255),
+          },
+          postal_code2: {
+            type: DataTypes.STRING(20),
+          },
+          country2: {
+            type: DataTypes.STRING(255),
+          },
           username: {
             type: DataTypes.STRING(50),
             allowNull: false,

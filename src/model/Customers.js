@@ -24,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
             },
           },
           phone: {
-            type: DataTypes.INTEGER(20),
+            type: DataTypes.STRING,
           },
           Tax_reg_no: {
             type: DataTypes.INTEGER(20),
@@ -33,7 +33,7 @@ module.exports = function (sequelize, DataTypes) {
           address: {
             type: DataTypes.STRING(255),
           },
-          city: {
+          citys: {
             type: DataTypes.STRING(255),
           },
           state: {
@@ -48,7 +48,7 @@ module.exports = function (sequelize, DataTypes) {
           address2: {
             type: DataTypes.STRING(255),
           },
-          city2: {
+          citys2: {
             type: DataTypes.STRING(255),
           },
           state2: {
