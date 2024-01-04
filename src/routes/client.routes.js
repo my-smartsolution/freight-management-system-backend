@@ -1,8 +1,12 @@
 const  express = require("express");
 const { createUser, getUsers, findUserById, updateUser, deleteUser } = require("../controller/client/clientController");
+const { clients } = require("../model");
+const verifyMiddleware = require("../middleware/verifyUniqueMiddlware");
 const router = express.Router();
+const check = verifyMiddleware(clients)
+
 console.log(">>>>>>>>>>>");
-router.post("/" , createUser)
+router.post("/" , check , createUser)
 router.get("/" , getUsers)
 router.get('/:id', findUserById)
 router.put('/:id', updateUser)

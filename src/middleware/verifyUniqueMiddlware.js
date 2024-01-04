@@ -8,7 +8,7 @@ const verifyMiddleware = (Model) => {
       email,
       phone,
       city_name,
-      Tax_reg_no,
+      tax_reg_no,
       company_name,
       whatsappNumber,
       documentNumber,
@@ -26,7 +26,7 @@ const verifyMiddleware = (Model) => {
     where[Op.and] = [];
     if (username) where[Op.or].push({ username: username });
     if (email) where[Op.or].push({ email: email });
-    if (Tax_reg_no) where[Op.or].push({ Tax_reg_no: Tax_reg_no });
+    if (tax_reg_no) where[Op.or].push({ tax_reg_no: tax_reg_no });
     if (company_name) where[Op.or].push({ company_name: company_name });
     if (whatsappNumber) where[Op.or].push({ whatsappNumber: whatsappNumber });
     if (documentNumber) where[Op.or].push({ documentNumber: documentNumber });
@@ -64,9 +64,9 @@ console.log(where);
           errorObj.phone = "Phone number is already registered";
           //   errorMessage.push("Phone number is already registered.");
         }
-        if (existingUser.Tax_reg_no === Tax_reg_no && Tax_reg_no) {
-          errorObj.Tax_reg_no = "Tax_reg_no is already registered.";
-          //   errorMessage.push("Tax_reg_no is already registered.");
+        if (existingUser.tax_reg_no === tax_reg_no && tax_reg_no) {
+          errorObj.tax_reg_no = "tax_reg_no is already registered.";
+          //   errorMessage.push("tax_reg_no is already registered.");
         }
         if (existingUser.company_name === company_name && company_name) {
           errorObj.company_name = "company_name is already registered.";

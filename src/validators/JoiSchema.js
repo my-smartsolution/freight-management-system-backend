@@ -74,4 +74,6 @@ const transactionSchema = Joi.object({
   }),
 }).unknown(true)
 
+
+
   module.exports = {driverSchema , driverDocumentSchema , countriesJoiSchema , statesJoiSchema , cityJoiSchema , vehicleJoiSchema , bookings , transactionSchema}
