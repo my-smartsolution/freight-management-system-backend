@@ -4,7 +4,7 @@ const {  subscriptions } = require("../../model");
 const Subscription = require("../../model/Subscription");
 const errorResponce = require("../../responses/ErrorResponce");
 const successResponce = require("../../responses/successResponce");
-const { findAllService } = require("../../service/FindService");
+const { findAllService, findByPkService } = require("../../service/FindService");
 const messages = require("../../config/constant/message")
 const {
   subscriptionSchema,
@@ -13,7 +13,7 @@ const {
 // Create a new subscription
 const createSubscription = async (req, res) => {
   try {
-    let validate = CommonValidator(req.body, subscriptionSchema);
+    const validate = CommonValidator(req.body, subscriptionSchema);
     if (!validate.validate) {
       return errorResponce(res, 400, validate.data, "validation Error");
     }
@@ -26,16 +26,17 @@ const createSubscription = async (req, res) => {
 };
 
 // Get all subscriptions
+// Get all subscriptions
 const getAllSubscriptions = async (req, res) => {
   try {
     const subscription = await findAllService(subscriptions, {});
 
-    subscription
-      ? successResponce(res, messages.httpRes.SUCCESS, subscription , 201)
+    return subscription
+      ? successResponce(res, messages.httpRes.SUCCESS, subscription, 201)
       : errorResponce(res, 404, messages.httpRes.NOT_FOUND, "");
   } catch (error) {
     console.error(error);
-    errorResponce(res, 500, messages.httpRes.SERVER_ERROR, error);
+    return errorResponce(res, 500, messages.httpRes.SERVER_ERROR, error);
   }
 };
 
@@ -43,41 +44,35 @@ const getAllSubscriptions = async (req, res) => {
 const getSubscriptionById = async (req, res) => {
   const { id } = req.params;
   try {
-    const subscription = await Subscription.findByPk(id);
-    if (subscription) {
-      res.status(200).json(subscription);
-    } else {
-      res.status(404).json({ error: "Subscription not found" });
-    }
+    const subscription =  findByPkService(subscriptions , id)
+    return subscription
+    ? successResponce(res, messages.httpRes.SUCCESS, subscription, 201)
+    : errorResponce(res, 404, messages.httpRes.NOT_FOUND, "");
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    return errorResponce(res, 500, messages.httpRes.SERVER_ERROR, error);
   }
 };
 
 // Update a subscription by ID
 const updateSubscriptionById = async (req, res) => {
   const { id } = req.params;
-  try {
-    const [updatedRowsCount, updatedSubscriptions] = await Subscription.update(
-      req.body,
-      {
-        where: { subscription_id: id },
-        returning: true,
-      }
-    );
 
-    if (updatedRowsCount > 0) {
-      res.status(200).json(updatedSubscriptions[0]);
-    } else {
-      res.status(404).json({ error: "Subscription not found" });
-    }
+  try {
+    const [updatedRowsCount, updatedSubscriptions] = await Subscription.update(req.body, {
+      where: { subscription_id: id },
+      returning: true,
+    });
+    return updatedRowsCount > 0
+    ? successResponce(res, messages.httpRes.SUCCESS, updatedSubscriptions, 200)
+    : errorResponce(res, 404, messages.httpRes.NOT_FOUND, "");
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    return errorResponce(res, 500, messages.httpRes.SERVER_ERROR, error);
   }
 };
 
+// Delete a subscription by ID
 // Delete a subscription by ID
 const deleteSubscriptionById = async (req, res) => {
   const { id } = req.params;
@@ -87,13 +82,14 @@ const deleteSubscriptionById = async (req, res) => {
     });
 
     if (deletedRowCount > 0) {
-      res.status(204).end();
+      return successResponce(res, messages.httpRes.SUCCESS, deletedRowCount, 200);
     } else {
-      res.status(404).json({ error: "Subscription not found" });
+      return errorResponce(res, 404, messages.httpRes.NOT_FOUND, "");
     }
+    
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    return errorResponce(res, 500, messages.httpRes.SERVER_ERROR, error);
   }
 };
 

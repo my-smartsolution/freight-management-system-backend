@@ -10,12 +10,12 @@ const {
 } = require("../../../middleware/validators/Schema/ComapanySchema");
 const successResponce = require("../../../responses/successResponce");
 const errorResponce = require("../../../responses/ErrorResponce");
+const messages = require("../../../config/constant/message");
 const Company = db.companies;
 
 const addCompany = async (req, res, next) => {
   try {
     const { business_name, phone, password } = req.body;
-    // req.body.slug = toSlug(req.body.business_name);
     if (req.file) {
       req.body.business_logo = req.file.filename;
     }
@@ -26,18 +26,10 @@ const addCompany = async (req, res, next) => {
     if (password) {
       req.body.password = await bcrypt.hash(password, 10);
     }
-    const data = await Company.create(req.body).catch((err) => {
-      throw createHttpError.InternalServerError(err);
-    });
-    if (!data) throw createHttpError.InternalServerError();
-    res.status(200).send({
-      status: true,
-      data: data.dataValues,
-    });
+    const data = await Company.create(req.body);
+    successResponce(res, messages.httpRes.SUCCESS , data , 201)
   } catch (err) {
-    // if (req.file) {
-    //   deleteS3File(req.file.key);
-    // }
+    console.log( "::::::::",err);
     res.status(500).send({
       status: false,
       message: err.message,
@@ -109,13 +101,13 @@ const getCompanies = async (req, res) => {
   try {
     const data = await Company.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
-     });
-     return data ? successResponce(res, "All compnayes" , data , 200) : errorResponce(res , 404 , "not found companey" ,"") 
-
+    });
+    return data
+      ? successResponce(res, "All compnayes", data, 200)
+      : errorResponce(res, 404, "not found companey", "");
   } catch (err) {
-    console.log("GetCompanies Error ::" , err);
-    errorResponce(res , 404 , err , "Internal Server error") 
-    
+    console.log("GetCompanies Error ::", err);
+    errorResponce(res, 404, err, "Internal Server error");
   }
 };
 

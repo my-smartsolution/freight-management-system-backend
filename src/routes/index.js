@@ -14,6 +14,7 @@ const users = require("./user.route")
 const user_company_assignments = require("./UserCompanyAssignment.route")
 const transactionsRoutes = require("./transactions.routes")
 const subscriptionRoutes = require("./subscription.routes")
+const subscriptionMasterRoutes = require("./subscriptionMaster.routes")
 // const JWT = require("../helpers/jwt")
 // const verifyUserCookieAccessToken = JWT.verifyUserCookieAccessToken;
 const router = express.Router();
@@ -32,5 +33,6 @@ router.use("/bookings", booking ); // border routess
 router.use("/transactions", transactionsRoutes  ); // border routess
 router.use("/assignCompany", user_company_assignments ); // border routess
 router.use("/subscription", subscriptionRoutes  ); // plan routes
+router.use("/subscriptionMaster", subscriptionMasterRoutes  ); // plan routes
 
 module.exports = router;

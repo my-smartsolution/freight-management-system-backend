@@ -52,6 +52,8 @@ const users = require("./users");
 const UserCompanyAssignment = require("./UserCompanyAssignment");
 const transactions = require("./transactions");
 const Subscription = require("./Subscription");
+const { SubscriptionMasterSchema } = require("../validators/superAdminValiadtor/ComminJoiSchema");
+const SubscriptionMaster = require("./SubscriptionMaster");
 
 
 // import Otp from "./Otp";
@@ -75,6 +77,8 @@ db.users = users(sequelize , DataTypes)
 db.transactions = transactions(sequelize , DataTypes)
 db.user_company_assignments = UserCompanyAssignment(sequelize ,DataTypes)
 db.subscriptions = Subscription(sequelize ,DataTypes)
+db.subscriptionMasters = SubscriptionMaster(sequelize ,DataTypes)
+
 
 !// remove sync true
 db.sequelize.sync({ alter: false, force: false }).then(() => {

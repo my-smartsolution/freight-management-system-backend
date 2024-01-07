@@ -26,9 +26,9 @@ const findByPkService = async(Model , Id) =>{
     }
 } 
 
-const findAllService = async (Model , filter) =>{
+const findAllService = async (Model , filter  , asso) =>{
     try {
-        const data = await Model.findAll({where : filter})
+        const data = await Model.findAll({where : filter , include : asso})
         console.log("findAllService data >>>>>>> , " , data );
         return data.length > 0 
         ?  data

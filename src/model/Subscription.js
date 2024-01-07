@@ -18,19 +18,24 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
+    months_Year_Num : {
+      type : DataTypes.INTEGER,
+      allowNull : false ,
+      defaultValue : 1
+    }, 
     noOfCompanyAllowed: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       defaultValue : 1
     },
     noOfAdminAllowed: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       defaultValue : 1
     },
     status: {
       type: DataTypes.ENUM("Active", "Inactive"),
-      allowNull: false,
+      allowNull: true,
       defaultValue: "Active",
     },
 
