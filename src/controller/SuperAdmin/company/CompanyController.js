@@ -41,16 +41,16 @@ const updateCompany = async (req, res, next) => {
   try {
     const company_id = req.params.id;
     const { business_name, phone } = req.body;
-    if (req.file) {
-      req.body.business_logo = req.file.key;
-    }
+    // if (req.file) {
+    //   req.body.business_logo = req.file.key;
+    // }
     const [updatedRows] = await Company.update(req.body, {
-      where: { id: company_id },
+      where: { company_id: company_id },
     }).catch((err) => {
       throw createHttpError.InternalServerError();
     });
     if (!updatedRows) throw createHttpError.InternalServerError();
-    res.status(200).send({ status: true });
+    successResponce(res, messages.httpRes.SUCCESS,updatedRows , 200)
   } catch (err) {
     if (req.file) {
       deleteS3File(req.file.key);
@@ -62,23 +62,35 @@ const updateCompany = async (req, res, next) => {
   }
 };
 
-// deleteCompany: async (req, res, next) => {
-//   try {
-//     const company_id = req.params.id;
-//     const data = await Company.destroy({
-//       where: { id: company_id },
-//     }).catch((err) => {
-//       throw createHttpError.InternalServerError();
-//     });
-//     if (!data) throw createHttpError.InternalServerError();
-//     res.status(200).send({ status: true });
-//   } catch (err) {
-//     res.status(500).send({
-//       status: false,
-//       message: err.message,
-//     });
-//   }
-// },
+const deleteCompany = async (req, res, next) => {
+  try {
+    const company_id = req.params.id;
+    const company = await db.subscriptionMasters.findOne({
+      where: { company_id: company_id },
+    });
+    if(company){
+      await db.subscriptionMasters.destroy({
+        where: { company_id: company_id },
+      })
+    }else{
+      const company = await Company.findOne({
+        where: { company_id: company_id },
+      });
+    if(!company)return  errorResponce(res , 404 , "Company not found" , 404)
+    }
+    const data = await Company.destroy({
+      where: { company_id: company_id },
+    })
+    if (!data) throw createHttpError.InternalServerError();
+    successResponce(res , messages.httpRes.SUCCESS , data , 200)
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: err.message,
+    });
+  }
+}
+
 const getCompany = async (req, res) => {
   try {
     const company_id = req.params.id;
@@ -111,4 +123,4 @@ const getCompanies = async (req, res) => {
   }
 };
 
-module.exports = { addCompany, getCompanies, getCompany, updateCompany };
+module.exports = { addCompany, getCompanies, getCompany, updateCompany , deleteCompany};

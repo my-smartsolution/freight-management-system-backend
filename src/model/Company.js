@@ -10,8 +10,10 @@ module.exports = function (sequelize, DataTypes) {
       super_admin_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: "super_admins",
+          model: "superadmins",
           key: "super_admin_id",
+          onDelete: "CASCADE", // Add cascade delete behavior
+          onUpdate: "CASCADE",
         },
       },
       businessType: {
@@ -94,9 +96,13 @@ module.exports = function (sequelize, DataTypes) {
       subscriptionId: {
         type: DataTypes.INTEGER,
         allowNull: true,
+        
         references: {
           model: "subscriptions",
           key: "subscription_id",
+          onDelete: "CASCADE", // Add cascade delete behavior
+          onUpdate: "CASCADE",
+
         },
       },
       start_at: {

@@ -1,6 +1,6 @@
   module.exports = function (sequelize, DataTypes) {
   const SuperAdmin = sequelize.define(
-    "super_admins",
+    "superadmins",
     {
       super_admin_id: {
         type: DataTypes.INTEGER,
@@ -16,6 +16,7 @@
       },
       password: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING(100),
@@ -56,9 +57,7 @@
     {
       timestamps: true,
       underscored: true,
-      defaultScope: {
-        attributes: { exclude: ["password"] },
-      },
+     
     }
   );
   return SuperAdmin;

@@ -5,7 +5,7 @@ const router = express.Router();
 router.post("/" , createSubscriptionMaster)
 router.get("/" , getAllSubscriptions)
 router.get('/:id',  getAllSubscriptions)
-router.put('/update',   updateSubscriptionsMaster)
+router.put('/update/:id',   updateSubscriptionsMaster)
 // router.put('/:id', updateUser)
 // router.delete("/unassignUserFromCompany:id", unassignUserFromCompany);
 

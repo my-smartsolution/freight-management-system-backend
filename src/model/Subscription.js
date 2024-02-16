@@ -38,6 +38,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true,
       defaultValue: "Active",
     },
+    activeUsers: {
+      type : DataTypes.INTEGER,
+      defaultValue : 0,
+      allowNull : true
+    }
 
   });
   return Subscription;

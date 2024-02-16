@@ -60,7 +60,7 @@ const SubscriptionMaster = require("./SubscriptionMaster");
 // import Vendor from "./Vendor";
 db.users = users(sequelize, DataTypes);
 db.companies = Company(sequelize, DataTypes);
-db.super_admins = SuperAdmin(sequelize, DataTypes);
+db.superadmins = SuperAdmin(sequelize, DataTypes);
 db. countries = Countries(sequelize, DataTypes);
 db.states = States(sequelize, DataTypes);
 db.citys = City(sequelize, DataTypes);

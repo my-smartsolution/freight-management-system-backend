@@ -3,7 +3,7 @@ const JWT = require("../helpers/jwt");
 const bcrypt = require("bcrypt");
 const moment = require("moment");
 const superAdmin = require("../model/superAdmin");
-const { users } = require("../model");
+const { users, superadmins } = require("../model");
 const { AuthSchema } = (require = "../validators/AuthValidator");
 const signUserAccessToken = JWT.signUserAccessToken;
 const signUserRefreshToken = JWT.signUserRefreshToken;
@@ -61,7 +61,7 @@ module.exports = {
       //   throw createHttpError.BadRequest();
       // });
       const { username, password } = req.body;
-      const LoginUser = await superAdmin.findOne({
+      const LoginUser = await superadmins.findOne({
         where: { username: username },
         // attributes: ["id", "name", "phone", "email", "password"],
       }).catch((err) => {

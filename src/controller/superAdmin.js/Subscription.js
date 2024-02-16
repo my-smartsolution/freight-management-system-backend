@@ -59,12 +59,17 @@ const updateSubscriptionById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [updatedRowsCount, updatedSubscriptions] = await Subscription.update(req.body, {
+    const updatedData = {planName , amount ,planType , months_Year_Num , status} = req.body
+
+    const filteredUpdatedData = Object.fromEntries(
+      Object.entries({planName , amount ,planType , months_Year_Num , status}).filter(([key, value]) => value !== undefined)
+    );
+    const  [updateCount , updatedRows]= await subscriptions.update(filteredUpdatedData, {
       where: { subscription_id: id },
       returning: true,
     });
-    return updatedRowsCount > 0
-    ? successResponce(res, messages.httpRes.SUCCESS, updatedSubscriptions, 200)
+    return updatedRows 
+    ? successResponce(res, messages.httpRes.SUCCESS, updatedRows, 200)
     : errorResponce(res, 404, messages.httpRes.NOT_FOUND, "");
   } catch (error) {
     console.error(error);
@@ -77,7 +82,7 @@ const updateSubscriptionById = async (req, res) => {
 const deleteSubscriptionById = async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedRowCount = await Subscription.destroy({
+    const deletedRowCount = await subscriptions.destroy({
       where: { subscription_id: id },
     });
 

@@ -13,6 +13,8 @@ module.exports = function (sequelize, DataTypes) {
           references: {
             model: "companies",
             key: "company_id",
+            onDelete: "CASCADE", // Add cascade delete behavior
+          onUpdate: "CASCADE",
           },
         },
         subscription_id: {
